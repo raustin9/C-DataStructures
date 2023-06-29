@@ -78,6 +78,9 @@ HTCreate(uint32_t table_size) {
   return ht;
 }
 
+// Frees all elements in the hash table
+// DOES NOT FREE THE TABLE ITSELF
+// DOES NOT FREE MEMORY POINTED TO BY THE ELEMENTS
 void
 HTFree(htable_t* ht) {
   uint64_t i;
@@ -89,6 +92,7 @@ HTFree(htable_t* ht) {
   free(ht->Elements);
 }
 
+// Iterates through the table and prints out each element's key
 void
 HTPrint(htable_t* ht) {
   uint64_t i;
@@ -102,6 +106,8 @@ HTPrint(htable_t* ht) {
   }
 }
 
+// Inserts a node in the hash table with its associated key
+// Uses quadratic probing for collisions
 int
 HTInsert(htable_t* ht, const char* key, void* data) {
   htnode_t* node;
@@ -118,6 +124,7 @@ HTInsert(htable_t* ht, const char* key, void* data) {
   if (ht->Elements[index] == NULL) {
     ht->Elements[index] = node;
   } else {
+    // Quadratic probing
     uint64_t i;
     for (i = 0; i < ht->TableSize; i++) {
       uint64_t t = (index + i*i) % ht->TableSize;
@@ -133,6 +140,8 @@ HTInsert(htable_t* ht, const char* key, void* data) {
   return 1;
 }
 
+// Finds and returns a node at the desired key in the 
+// hash table if it exists
 htnode_t*
 HTFind(htable_t* ht, const char* key) {
   uint64_t index;
@@ -142,6 +151,7 @@ HTFind(htable_t* ht, const char* key) {
   if (ht->Elements[index] != NULL && strcmp(ht->Elements[index]->Key, key) == 0) {
     return ht->Elements[index];
   } else if (ht->Elements[index] != NULL && strcmp(ht->Elements[index]->Key, key) != 0) {
+    // Quadratic Probing
     uint64_t i;
     for (i = 0; i < ht->TableSize; i++) {
       uint64_t t = (index + i*i) % ht->TableSize;
@@ -156,6 +166,7 @@ HTFind(htable_t* ht, const char* key) {
 }
 
 // Deletes node at a key
+// Uses quadratic probing for collisions
 htnode_t*
 HTDeleteNode(htable_t* ht, const char* key) {
   uint64_t index;
