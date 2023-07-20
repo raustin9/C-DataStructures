@@ -10,3 +10,6 @@ and those are mainly just to test certain parts of the functionality of the data
 Each data structure is encapsulated within their own .h file,
 and to use it, just add it into the project directory or what directory you want to include it from.
 Just add a ```#include ""``` statement accordingly.
+
+THIS WILL BE CHANGED SOON
+IT WILL BE PROPER LIBRARIES WITH .c FILES THAT SHOULD BE COMPILED TO .a and .o FILES
